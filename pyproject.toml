@@ -29,7 +29,7 @@ Documentation = "https://github.com/dskjal/comfyui-yolov8-simple/wiki"
 "Bug Tracker" = "https://github.com/dskjal/comfyui-yolov8-simple/issues"
 
 [tool.comfy]
-PublisherId = ""
+PublisherId = "dskjal"
 DisplayName = "comfyui-yolov8-simple"
 Icon = ""
 includes = [] 
