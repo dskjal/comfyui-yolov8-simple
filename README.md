@@ -7,7 +7,8 @@ Simple yolov8 comfyui plugin
 
 ## How to use
 
-If "seg" or "Seg" or "SEG" in your yolov8 model name, the node outputs segmentation mask.
+If your yolov8 model has "seg" or "Seg" or "SEG" in the name, the node outputs segmentation mask.
 
 Node name is Yolov8DetectionSegmentation.
+
 
