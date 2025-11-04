@@ -16,4 +16,5 @@ If your yolov8 model has "seg" or "Seg" or "SEG" in the name, the node outputs s
 Node name is Yolov8DetectionSegmentation and ImageCompositeBlurredNode.
 
 
+![](https://github.com/dskjal/comfyui-yolov8-simple/blob/main/simple-yolov8-workflow-example.png)
 
