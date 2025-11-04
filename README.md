@@ -4,7 +4,7 @@ Yolov8DetectionSegmentation detects and crops an input image.
 
 ImageCompositeBlurredNode blurs image borders and overlaps the image at target location.
 
-## INSTALL
+## Install
 
 1. in comfyui `custom_nodes` dir and `https://github.com/dskjal/comfyui-yolov8-simple.git`
 2. put detect or seg models in comfyui `models/yolov8` dir
@@ -17,4 +17,5 @@ Node name is Yolov8DetectionSegmentation and ImageCompositeBlurredNode.
 
 
 ![](https://github.com/dskjal/comfyui-yolov8-simple/blob/main/simple-yolov8-workflow-example.png)
+
 
