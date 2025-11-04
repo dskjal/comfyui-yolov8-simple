@@ -1,4 +1,8 @@
-Simple yolov8 comfyui plugin
+Simple yolov8 comfyui plugin. This plugin adds Yolov8DetectionSegmentation node and ImageCompositeBlurredNode node.
+
+Yolov8DetectionSegmentation detects and crops an input image.
+
+ImageCompositeBlurredNode blurs image borders and overlaps the image at target location.
 
 ## INSTALL
 
@@ -9,6 +13,7 @@ Simple yolov8 comfyui plugin
 
 If your yolov8 model has "seg" or "Seg" or "SEG" in the name, the node outputs segmentation mask.
 
-Node name is Yolov8DetectionSegmentation.
+Node name is Yolov8DetectionSegmentation and ImageCompositeBlurredNode.
+
 
 
