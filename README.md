@@ -20,11 +20,12 @@ Node name is Yolov8DetectionSegmentation and ImageCompositeBlurred.
 
 #### Segmentation workflow
 
-![](https://github.com/dskjal/comfyui-yolov8-simple/blob/main/simple-yolov8-workflow-seg-example.png)
+![](https://github.com/dskjal/comfyui-yolov8-simple/blob/main/simple-yolov8-workflow-seg-example2.png)
 
 ### Mask
 
 Mask output size equals imput image size.
 
 Cropped mask size equals cropped image size.
+
 
