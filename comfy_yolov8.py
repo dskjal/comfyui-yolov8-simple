@@ -96,8 +96,8 @@ class ImageCompositeBlurredNode :
             },
         }
 
-    RETURN_TYPES = ("IMAGE","IMAGE", "IMAGE")
-    RETURN_NAMES = ("IMAGE", "debug overlap", "debug image alpha")
+    RETURN_TYPES = ("IMAGE","IMAGE")
+    RETURN_NAMES = ("IMAGE", "debug overlap")
     FUNCTION = "composite"
     CATEGORY = "yolov8"
 
@@ -157,7 +157,7 @@ class ImageCompositeBlurredNode :
         result_tensor = torch.tensor(base.astype(np.float32) / 255.0).unsqueeze(0)
         overlap_tensor = torch.tensor((region_overlap * region_alpha).astype(np.float32) / 255.0).unsqueeze(0)
 
-        return (result_tensor, overlap_tensor, torch.tensor((overlap_a).astype(np.float32) / 255.0).unsqueeze(0))
+        return (result_tensor, overlap_tensor)
     
 
 NODE_CLASS_MAPPINGS = {
