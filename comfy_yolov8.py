@@ -96,8 +96,8 @@ class ImageCompositeBlurredNode :
             },
         }
 
-    RETURN_TYPES = ("IMAGE","IMAGE")
-    RETURN_NAMES = ("IMAGE", "debug overlap")
+    RETURN_TYPES = ("IMAGE","IMAGE", "IMAGE")
+    RETURN_NAMES = ("IMAGE", "debug overlap", "debug image alpha")
     FUNCTION = "composite"
     CATEGORY = "yolov8"
 
@@ -106,7 +106,7 @@ class ImageCompositeBlurredNode :
         overlap = np.asarray(overlap_image.squeeze(0) * 255).astype(np.uint8)
 
         H, W, _ = base.shape
-        oh, ow, _ = overlap.shape
+        oh, ow, oc = overlap.shape
 
         # generate alpha channel mask
         alpha = np.ones((oh, ow), dtype=np.float32)
@@ -118,6 +118,15 @@ class ImageCompositeBlurredNode :
             alpha[:, i] = np.minimum(alpha[:, i], fade)              # 左
             alpha[:, ow - 1 - i] = np.minimum(alpha[:, ow - 1 - i], fade)  # 右
 
+        # process alpha channel
+        overlap_a = overlap
+        if oc == 4:
+            overlap_rgb = overlap[..., :3].astype(np.float32)
+            overlap_a = overlap[..., 3].astype(np.float32)
+            alpha = alpha * overlap_a
+        else:
+            overlap_rgb = overlap.astype(np.float32)
+
         # expand an image channel
         alpha3 = np.expand_dims(alpha, axis=-1)
 
@@ -128,20 +137,27 @@ class ImageCompositeBlurredNode :
         ox2, oy2 = ox1 + (x2 - x1), oy1 + (y2 - y1)
 
         # crop base image
-        region_base = base[y1:y2, x1:x2, :]
-        region_overlap = overlap[oy1:oy2, ox1:ox2, :]
+        region_base = base[y1:y2, x1:x2, :].astype(np.float32)
+        region_overlap = overlap_rgb[oy1:oy2, ox1:ox2, :]
         region_alpha = alpha3[oy1:oy2, ox1:ox2, :]
 
-        # blend
-        blended = region_base * (1 - region_alpha) + region_overlap * region_alpha
+        # --- adjust base channel count (in case of mismatch) ---
+        if region_base.shape[2] != region_overlap.shape[2]:
+            # drop alpha if base has 4ch
+            region_base = region_base[..., :3]
 
-        # write back to base
-        base[y1:y2, x1:x2, :] = blended
-    
-        # to ComfyUI tensor
+        # --- blend ---
+        blended = region_base * (1 - region_alpha) + region_overlap * region_alpha
+        blended = np.clip(blended, 0, 255).astype(np.uint8)
+
+        # --- write back ---
+        base[y1:y2, x1:x2, :region_base.shape[2]] = blended
+
+        # --- to tensors for ComfyUI ---
         result_tensor = torch.tensor(base.astype(np.float32) / 255.0).unsqueeze(0)
         overlap_tensor = torch.tensor((region_overlap * region_alpha).astype(np.float32) / 255.0).unsqueeze(0)
-        return (result_tensor, overlap_tensor)
+
+        return (result_tensor, overlap_tensor, torch.tensor((overlap_a).astype(np.float32) / 255.0).unsqueeze(0))
     
 
 NODE_CLASS_MAPPINGS = {
