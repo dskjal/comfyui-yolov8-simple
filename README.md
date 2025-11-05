@@ -28,6 +28,10 @@ Mask output size equals imput image size.
 
 Cropped mask size equals cropped image size.
 
+### Why stop when nothing is detected?
 
+To skip detailer when nothing is detected, it requires switch node.
+
+It would be OOM if it returns an input image when nothing is detected.
 
 
