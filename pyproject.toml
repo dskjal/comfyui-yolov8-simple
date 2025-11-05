@@ -1,7 +1,7 @@
 [project]
 name = "yolov8-simple"
 description = "Simple yolov8 comfyui plugin. This plugin adds Yolov8DetectionSegmentation node and ImageCompositeBlurred node."
-version = "1.1.1"
+version = "1.2.0"
 license = {file = "LICENSE"} 
 # classifiers = [
 #     # For OS-independent nodes (works on all operating systems)
