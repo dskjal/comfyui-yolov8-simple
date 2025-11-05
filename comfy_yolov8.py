@@ -21,8 +21,8 @@ class Yolov8DSNode:
             },
         }
 
-    RETURN_TYPES = ("IMAGE", "IMAGE", "INT", "INT", "INT", "INT", "MASK", "MASK", "IMAGE")
-    RETURN_NAMES = ("cropped image", "image pass through", "x", "y", "width", "height", "mask", "cropped mask", "debug image")
+    RETURN_TYPES = ("IMAGE", "MASK", "IMAGE", "INT", "INT", "INT", "INT", "MASK", "IMAGE")
+    RETURN_NAMES = ("cropped image", "cropped mask", "image pass through", "x", "y", "width", "height", "mask", "debug image")
     FUNCTION = "detect"
     CATEGORY = "yolov8"
 
@@ -77,7 +77,7 @@ class Yolov8DSNode:
             mask_tensor = torch.tensor(mask).unsqueeze(0)  # (1, H, W)
             cropped_mask_tensor = mask_tensor
 
-        return (cropped_img_tensor_out, image_backup, x1, y1, x2-x1, y2-y1, mask_tensor, cropped_mask_tensor, self.result_to_debug_image(results))
+        return (cropped_img_tensor_out, cropped_mask_tensor, image_backup, x1, y1, x2-x1, y2-y1, mask_tensor, self.result_to_debug_image(results))
 
 
 class ImageCompositeBlurredNode :
