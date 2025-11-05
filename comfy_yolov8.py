@@ -67,8 +67,8 @@ class Yolov8DSNode:
             import cv2
             W, H, _ = image_np.shape
             scalled = cv2.resize(class_masks_np, (H, W), interpolation=cv2.INTER_AREA)
-            mask_tensor = torch.any(torch.tensor(scalled).unsqueeze(0), dim=0).int() * 255 # mask_tensor.shape = torch.Size([H, W])
-            cropped_mask_tensor = torch.any(torch.tensor(scalled[y1:y2, x1:x2]).unsqueeze(0), dim=0).int() * 255
+            mask_tensor = torch.any(torch.tensor(scalled).unsqueeze(0), dim=0) * 255 # mask_tensor.shape = torch.Size([H, W])
+            cropped_mask_tensor = torch.any(torch.tensor(scalled[y1:y2, x1:x2]).unsqueeze(0), dim=0) * 255
 
         else:
             # box mask
