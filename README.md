@@ -16,7 +16,7 @@ If your yolov8 model has "seg" or "Seg" or "SEG" in the name, the node outputs s
 Node name is Yolov8DetectionSegmentation and ImageCompositeBlurred.
 
 ### Sample workflow
-![](https://github.com/dskjal/comfyui-yolov8-simple/blob/main/simple-yolov8-workflow-example.png)
+![](https://github.com/dskjal/comfyui-yolov8-simple/blob/main/simple-yolov8-workflow-example-v2.png)
 
 #### Segmentation workflow
 
@@ -27,5 +27,6 @@ Node name is Yolov8DetectionSegmentation and ImageCompositeBlurred.
 Mask output size equals imput image size.
 
 Cropped mask size equals cropped image size.
+
 
 
