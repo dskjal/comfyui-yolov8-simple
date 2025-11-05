@@ -21,8 +21,8 @@ class Yolov8DSNode:
             },
         }
 
-    RETURN_TYPES = ("IMAGE", "IMAGE", "INT", "INT", "INT", "INT", "MASK", "IMAGE")
-    RETURN_NAMES = ("cropped image", "image pass through", "x", "y", "width", "height", "mask", "debug image")
+    RETURN_TYPES = ("IMAGE", "IMAGE", "INT", "INT", "INT", "INT", "MASK", "MASK", "IMAGE")
+    RETURN_NAMES = ("cropped image", "image pass through", "x", "y", "width", "height", "mask", "cropped mask", "debug image")
     FUNCTION = "detect"
     CATEGORY = "yolov8"
 
@@ -60,16 +60,24 @@ class Yolov8DSNode:
             # extract classes
             clss = boxes[:, 5]
             class_indices = torch.where(clss == class_id)   # get indices of results where class is 0 (people in COCO)
-            class_masks = masks[class_indices]  # use these indices to extract the relevant masks
-            mask_tensor = torch.any(class_masks, dim=0).int() * 255
+            class_masks = masks[class_indices]  # use these indices to extract the relevant masks. shape = (1, H, W)
+
+            # upscale the mask to the original size
+            class_masks_np = np.asarray(Image.fromarray((class_masks.cpu().numpy().squeeze(0) * 255).astype(np.uint8)))
+            import cv2
+            W, H, _ = image_np.shape
+            scalled = cv2.resize(class_masks_np, (H, W), interpolation=cv2.INTER_AREA)
+            mask_tensor = torch.any(torch.tensor(scalled).unsqueeze(0), dim=0).int() * 255 # mask_tensor.shape = torch.Size([H, W])
+            cropped_mask_tensor = torch.any(torch.tensor(scalled[y1:y2, x1:x2]).unsqueeze(0), dim=0).int() * 255
 
         else:
             # box mask
             mask = np.zeros((image_np.shape[0], image_np.shape[1]), dtype=np.float32)
             mask[y1:y2, x1:x2] = 1.0
             mask_tensor = torch.tensor(mask).unsqueeze(0)  # (1, H, W)
+            cropped_mask_tensor = mask_tensor
 
-        return (cropped_img_tensor_out, image_backup, x1, y1, x2-x1, y2-y1, mask_tensor, self.result_to_debug_image(results))
+        return (cropped_img_tensor_out, image_backup, x1, y1, x2-x1, y2-y1, mask_tensor, cropped_mask_tensor, self.result_to_debug_image(results))
 
 
 class ImageCompositeBlurredNode :
