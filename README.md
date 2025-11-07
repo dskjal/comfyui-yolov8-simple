@@ -6,7 +6,7 @@ ImageCompositeBlurred blurs image borders and overlaps the image at the target l
 
 ## Install
 
-1. Install from the manager or in comfyui `custom_nodes` dir and `https://github.com/dskjal/comfyui-yolov8-simple.git`
+1. Install from the manager
 2. put detect or seg models in comfyui `models/yolov8` dir
 
 ## How to use
@@ -35,6 +35,7 @@ To skip detailer when nothing is detected, it requires gate node.
 It would be OOM if it returns an input image when nothing is detected.
 
 If you want to handle these, use [comfyui-yolov8-dsuksampler](https://github.com/dskjal/comfyui-yolov8-dsuksampler/tree/main).
+
 
 
 
