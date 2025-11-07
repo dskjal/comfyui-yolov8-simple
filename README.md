@@ -34,5 +34,8 @@ To skip detailer when nothing is detected, it requires gate node.
 
 It would be OOM if it returns an input image when nothing is detected.
 
+If you want to handle these, use [comfyui-yolov8-dsuksampler](https://github.com/dskjal/comfyui-yolov8-dsuksampler/tree/main).
+
+
 
 
